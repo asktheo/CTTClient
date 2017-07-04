@@ -81,7 +81,7 @@ public class GPSObservationDAO extends BaseDAO {
 						.addParameter("gps_date", o.getGps_date())
 						.addParameter("gps_time", o.getGps_time())
 						.addParameter("lat", o.getLatitude())
-						.addParameter("lon", o.getLatitude())
+						.addParameter("lon", o.getLongitude())
 						.addParameter("hdop", o.getHdop())
 						.addParameter("fix", o.getFix())
 						.addParameter("cog", o.getCog())
