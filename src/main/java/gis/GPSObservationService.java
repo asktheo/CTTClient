@@ -5,19 +5,19 @@ import com.vividsolutions.jts.geom.Point;
 
 import gis.model.GPSObservationModel;
 import ctt.model.Unit;
+import lombok.extern.slf4j.Slf4j;
 import org.opengis.referencing.operation.TransformException;
 import gis.util.GISUtil;
 
 import java.util.List;
 
+@Slf4j
 /**
  * 
  * @author theo The service instance is responsible for delegating data
  *         operations and controlling their Interacts with other services
  */
 public class GPSObservationService {
-
-	private static String GPS_EURINGNO = "02430";
 
 	/**
 
@@ -26,9 +26,8 @@ public class GPSObservationService {
 	 */
 	public List<Unit> getStoredUnits() throws Exception{
         GPSObservationDAO dao = GPSObservationDAO.getInstance();
-		List<Unit> units = dao.getStoredUnits();
 
-		return units;
+		return dao.getStoredUnits();
 	}
 
 	/**
@@ -36,7 +35,7 @@ public class GPSObservationService {
 	 * @param observationForGIS
 	 * @throws Exception
 	 */
-	public void addGeometries2Observation(GPSObservationModel observationForGIS)
+	public boolean addGeometries2Observation(GPSObservationModel observationForGIS)
 			throws Exception {
 		GISUtil util = GISUtil.getInstance();
 		double[] srcOrdinates = { observationForGIS.getLatitude(), observationForGIS.getLongitude() };
@@ -44,10 +43,11 @@ public class GPSObservationService {
 			double[] dstOrdinates = util.getTransformer().convert(srcOrdinates);
 			Point p = util.getGeomFactory().createPoint(new Coordinate(dstOrdinates[0], dstOrdinates[1]));
             observationForGIS.setWKT(util.getWKTWriter().write(p));
-
 		} catch (TransformException ex) {
-			throw ex;
+			log.error("Error adding geometry to observation with coordinates {} {}", srcOrdinates[0], srcOrdinates[1]);
+			return false;
 		}
+		return true;
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class GPSObservationService {
 	}
 
 	/**
-	 * do some modifications
+	 * do some modifications on the observation
 	 * @param observation
 	 * @throws Exception
 	 */
@@ -71,11 +71,24 @@ public class GPSObservationService {
 		//create short unitId from 20 digit serial
 		String serial = observation.getSerial();
 		observation.setUnitid(Integer.parseInt(serial.substring(serial.length()-8)));
-		/**
-		 * TODO : make this lookup unit in table where unitid combined with euringno
-		 */
-		observation.setEuringno(GPS_EURINGNO);
-		this.addGeometries2Observation(observation);
+		//add geometry (WKT)
+		boolean success = this.addGeometries2Observation(observation);
+		if(!success) {
+			log.error("error adding WKT for unit {} at {}", observation.getUnitid(), observation.getGps_time());
+		}
+		else {
+			log.info("WKT added to unit {} at {}", observation.getUnitid(), observation.getGps_time());
+		}
+	}
+
+	/**
+	 * extra info from the CTT Agent variables to add to each observation
+	 * @param observation
+	 * @param euringNo
+	 * @throws Exception
+	 */
+	public void setEuringNo(GPSObservationModel observation, String euringNo) throws Exception {
+		observation.setEuringno(euringNo);
 	}
 
 	/**
@@ -88,8 +101,5 @@ public class GPSObservationService {
         GPSObservationDAO dao = GPSObservationDAO.getInstance();
 		dao.deleteObservations(unitid);
 	}
-
-
-
 
 }

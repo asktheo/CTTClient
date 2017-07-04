@@ -19,6 +19,9 @@ public class GISUtil {
 	
 	private static GISUtil instance;
 
+	/**
+	 * Constructor - initializes all by coordinate transformer which is dependent on Spatial Reference System (SRS)
+	 */
 	private GISUtil(){
 		writer = new WKTWriter();
 		geomFactory = new GeometryFactory();
@@ -47,9 +50,15 @@ public class GISUtil {
 	public PrecisionModel getPrecisionModel() {
 		return prcsionModel;
 	}
-	
-	public void initTransformer(SpatialRefSys fromEPSGCode, SpatialRefSys toEPSGCode) throws Exception{
-		this.transformer = new CoordinateTransformer(fromEPSGCode, toEPSGCode);	
+
+	/**
+	 * create a {@link CoordinateTransformer} for the utility dependent on {@link SpatialRefSys}. Transformer is initialized in the constructór
+	 * @param fromSRS
+	 * @param toSRS
+	 * @throws Exception
+	 */
+	public void initTransformer(SpatialRefSys fromSRS, SpatialRefSys toSRS) throws Exception{
+		this.transformer = new CoordinateTransformer(fromSRS, toSRS);
 	}	
 
 	public CoordinateTransformer getTransformer() {

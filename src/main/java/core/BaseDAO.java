@@ -8,8 +8,8 @@ import org.sql2o.Sql2o;
 public abstract class BaseDAO {
 	// sql2o setup
 
-	protected boolean transactionMode = false;
-	protected org.sql2o.Connection transactionConnection;
+	private boolean transactionMode = false;
+	private org.sql2o.Connection transactionConnection;
 
 	protected void startTransaction(Sql2o sql2o){
 		transactionConnection = sql2o.beginTransaction();

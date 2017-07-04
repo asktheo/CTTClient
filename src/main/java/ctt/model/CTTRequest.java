@@ -1,10 +1,25 @@
 package ctt.model;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by theo on 25-06-2017.
  * Json serializable class for creating a request body
  */
 public class CTTRequest {
 
+    @SerializedName("token")
+    @Expose
+    private String token;
+
+    @SerializedName("action")
+    @Expose
+    private String action;
+
+    @SerializedName("parameters")
+    @Expose
+    private UnitCollectionInRequest parameters;
 
     public enum Actions {
         /*
@@ -29,18 +44,12 @@ public class CTTRequest {
         this.token = token;
     }
 
-    private String token;
-
     public void setAction(String action) {
         this.action = action;
     }
 
-    private String action;
-
     public void setParameters(UnitCollectionInRequest parameters) {
         this.parameters = parameters;
     }
-
-    private UnitCollectionInRequest parameters;
 
 }

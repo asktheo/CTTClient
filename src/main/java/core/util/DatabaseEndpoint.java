@@ -51,7 +51,7 @@ public class DatabaseEndpoint {
      * @throws SQLException
      * @throws IllegalArgumentException
      */
-    public DataSource getDataSource(String database) throws SQLException, IllegalArgumentException {
+    private DataSource getDataSource(String database) throws SQLException, IllegalArgumentException {
         if (this.url.contains("mysql")) {
             MysqlDataSource ds;
             ds = new MysqlDataSource();

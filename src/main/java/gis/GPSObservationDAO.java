@@ -2,11 +2,9 @@ package gis;
 
 import core.BaseDAO;
 import core.util.DatabaseEndpoint;
-import gis.model.GPSObservationModel;
 import ctt.model.Unit;
+import gis.model.GPSObservationModel;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
@@ -16,6 +14,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 
+@Slf4j
 /**
  * An instance of the class is responsible for
  * reading from and writing to the GIS database holding gps observations
@@ -24,7 +23,6 @@ import java.util.List;
  *
  *
  */
-@Slf4j
 public class GPSObservationDAO extends BaseDAO {
 	private static Sql2o sql2o;
 	private static GPSObservationDAO instance;
@@ -53,14 +51,12 @@ public class GPSObservationDAO extends BaseDAO {
 
 	/**
 	 * deleteObservations
-	 * 
+	 * TODO: implement
 	 * @param unitId
 	 *            : the source from which to delete from.
 	 */
 	public void deleteObservations(String unitId) {
-	/**
-	 * TODO: implement
-	 */
+
 	}
 
 	/**

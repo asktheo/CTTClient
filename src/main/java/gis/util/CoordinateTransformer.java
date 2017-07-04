@@ -11,11 +11,16 @@ import org.opengis.referencing.operation.TransformException;
 
 @Slf4j
 public class CoordinateTransformer {
-	CoordinateReferenceSystem sourceCRS;
-	CoordinateReferenceSystem destCRS;
-	MathTransform transformer;
-	
-	
+	private CoordinateReferenceSystem sourceCRS;
+	private CoordinateReferenceSystem destCRS;
+	private MathTransform transformer;
+
+	/**
+	 *
+	 * @param srcSys
+	 * @param dstSys
+	 * @throws Exception
+	 */
 	public CoordinateTransformer(SpatialRefSys srcSys, SpatialRefSys dstSys) throws Exception{
 			this.sourceCRS = this.decode(srcSys.toString());
 			this.destCRS = this.decode(dstSys.toString());
@@ -31,13 +36,19 @@ public class CoordinateTransformer {
 	 * @throws TransformException
 	 */
 	public double[] convert(double[] srcOrds) throws TransformException {
-		double[] ords = srcOrds;
+		//odd implementation of transformer because no return variable and slave parameter for modification ..
 		double[] dstOrds = {0.0,0.0};
-		// TODO Auto-generated method stub
-		transformer.transform(ords, 0, dstOrds, 0, 1);	
+		//preserve simple array since it might be modifed in subsequent transformation
+		transformer.transform(srcOrds.clone(), 0, dstOrds, 0, 1);
 		return dstOrds;
 	}
-	
+
+	/**
+	 * creates CRS by decoding epsg string. Called in constructor
+	 * @param epsgCode
+	 * @return
+	 * @throws Exception
+	 */
 	private CoordinateReferenceSystem decode(String epsgCode) throws Exception{
 		try{ 
 			return CRS.decode(epsgCode);
@@ -49,14 +60,16 @@ public class CoordinateTransformer {
 			throw ex;
 		}
 	}
-	
+
+	/**
+	 * called in constructor to create this.transformer
+	 * @return MathTransform
+	 * @throws Exception
+	 */
 	private MathTransform getTransform() throws Exception{
-		
-		try {
-			return CRS.findMathTransform(sourceCRS, destCRS);
-		} catch (FactoryException ex) {
-			throw ex;
-		}
+
+		return CRS.findMathTransform(sourceCRS, destCRS);
+
 	}
 
 }
