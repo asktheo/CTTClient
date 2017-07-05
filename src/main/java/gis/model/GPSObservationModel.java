@@ -8,10 +8,12 @@ public class GPSObservationModel extends BaseModel {
 	private int unitid;
 	private String euringno;
 	private String wkt;
+
 	@SerializedName("gps_datetime")
 	private String dt;
-	//response in CSV forma
+
 	private String serial; //89460800120041549716
+
 	@SerializedName("GPS_date_YYYY-MM-DD")
 	private String gps_date;
 
@@ -28,6 +30,14 @@ public class GPSObservationModel extends BaseModel {
 	private double alt; //41.4
 	private double data_voltage; //4.07
 	private double solar_charge; //6.05
+	private double solar_current;
+	private int nsats;
+	private double vdop;
+	private String geo;
+	private int activity;
+	private int inactivity;
+	private double temp;
+	private int time_to_fix;
 
 	public String getEuringno() {
 		return euringno;
@@ -153,6 +163,37 @@ public class GPSObservationModel extends BaseModel {
 		this.solar_charge = solar_charge;
 	}
 
+	public double getSolar_current() {
+		return solar_current;
+	}
+
+	public int getNsats() {
+		return nsats;
+	}
+
+	public double getVdop() {
+		return vdop;
+	}
+
+	public String getGeo() {
+		return geo;
+	}
+
+	public int getActivity() {
+		return activity;
+	}
+
+	public int getInactivity() {
+		return inactivity;
+	}
+
+	public double getTemp() {
+		return temp;
+	}
+
+	public int getTime_to_fix() {
+		return time_to_fix;
+	}
 }
 
 

@@ -68,8 +68,8 @@ public class GPSObservationDAO extends BaseDAO {
 	public int insertObservations(List<GPSObservationModel> observations) {
 		log.debug("Storing {} new observations", observations.size());
 		String insertSQL = " INSERT INTO " + GISModel.GPS_OBSERVATION_TABLE
-				+ "		(unitid, euringno, geom, dt, gps_date, gps_time,lat,lon,hdop,fix,cog,speed,alt,data_voltage,solar_charge)"
-				+ " VALUES(:unitid,:euringno,st_geometryfromtext(:wkt,3857),:dt,:gps_date, :gps_time,:lat,:lon,:hdop,:fix,:cog,:speed,:alt,:data_voltage,:solar_charge)";
+				+ "		(unitid, euringno, geom, dt, gps_date, gps_time,lat,lon,hdop,fix,cog,speed,alt,data_voltage,solar_charge,solar_current,nsats,vdop,activity,inactivity,temperature,time_to_fix)"
+				+ " VALUES(:unitid,:euringno,st_geometryfromtext(:wkt,3857),:dt,:gps_date, :gps_time,:lat,:lon,:hdop,:fix,:cog,:speed,:alt,:data_voltage,:solar_charge,:solar_current,:nsats,:vdop,:activity,:inactivity,:temp,:time_to_fix)";
 
 		try (Connection con = sql2o.beginTransaction()) {
 			Query query = con.createQuery(insertSQL);
@@ -89,6 +89,13 @@ public class GPSObservationDAO extends BaseDAO {
 						.addParameter("alt", o.getAlt())
 						.addParameter("data_voltage", o.getData_voltage())
 						.addParameter("solar_charge", o.getSolar_charge())
+						.addParameter("solar_current", o.getSolar_current())
+						.addParameter("nsats", o.getNsats())
+						.addParameter("vdop", o.getVdop())
+						.addParameter("activity", o.getActivity())
+						.addParameter("inactivity", o.getInactivity())
+						.addParameter("temp", o.getTemp())
+						.addParameter("time_to_fix", o.getTime_to_fix())
 						.addToBatch();
 			}
 			query.executeBatch();

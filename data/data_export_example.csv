@@ -1,0 +1,3 @@
+serial,GPS_date_YYYY-MM-DD,GPS_utc_HH:MM:SS,gps_datetime,lat,lon,hdop,fix,cog,speed,alt,data_voltage,solar_charge,solar_current,nsats,vdop,geo,activity,inactivity,temp,time_to_fix
+89460800120041549542,2017-07-05,11:48:08,2017-07-05 11:48:08,55.136276,12.000319,1.7,3,151,0.3,28.4,4.0,5.01,0.0,4,2.3,,25,91,31.56,28
+89460800120041549542,2017-07-05,11:31:43,2017-07-05 11:31:43,55.136356,12.00023,1.8,3,307,0.2,23.6,4.0,4.26,0.0,4,2.7,,0,93,31.98,28

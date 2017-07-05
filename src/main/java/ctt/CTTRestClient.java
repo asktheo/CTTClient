@@ -41,7 +41,7 @@ public class CTTRestClient {
         Gson gson = new Gson();
         String body = gson.toJson(cttRequest);
         String responseJson = GsonUtil.http(apiEndpoint,body);
-        log.debug("received from API: {}",responseJson);
+        log.info("received from API: {}",responseJson);
         if(responseJson != null) {
             UnitCollectionInResponse responseUnits = gson.fromJson(responseJson, UnitCollectionInResponse.class);
             return responseUnits.getUnits();
@@ -57,7 +57,6 @@ public class CTTRestClient {
         Gson gson = new Gson();
         String body = gson.toJson(cttRequest);
         String responseText = GsonUtil.http(apiEndpoint,body);
-        log.debug("received from API: \n {}",responseText);
         return responseText;
     }
 }

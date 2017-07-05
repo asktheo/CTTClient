@@ -48,7 +48,12 @@ public class GsonUtil {
         //replace inconvenient field name
         String text = responseText.replace("GPS_YYYY-MM-DD_HH:MM:SS","gps_datetime");
         String lines[] = text.split("\r?\n");
+        log.info("headers: \n {}", lines[0]);
         String headers[] = lines[0].split(",");
+        if(lines.length >= 3) {
+            log.info("first line: \n {}", lines[1]);
+            log.info("second line: \n {}", lines[2]);
+        }
         StringBuilder jSonObject = new StringBuilder();
         jSonObject.append("[");
         for (int j = 1; j < lines.length; j++) {
