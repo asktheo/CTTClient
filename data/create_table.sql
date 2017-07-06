@@ -34,3 +34,4 @@ TABLESPACE pg_default;
 ALTER TABLE partners.gps_observation
     OWNER to partners;
 
+CREATE index gps_observation_sidx on gps_observation USING gist(geom);
